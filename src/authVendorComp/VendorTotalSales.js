@@ -14,7 +14,7 @@ const VendorTotalSales = () => {
           Total Sales
         </p>
         <img
-          src="../assets/DOtsHorizontal.png"
+          src="../assets/DotsHorizontal.png"
           alt="more"
           style={{
             width: "30px",
