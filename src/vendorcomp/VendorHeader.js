@@ -7,7 +7,7 @@ const VendorHeader = () => {
 const styles = {
   mainContainer: {
     backgroundColor: "#18181B",
-    width: "100vw",
+    width: "100%",
     height: "80px",
   },
 };

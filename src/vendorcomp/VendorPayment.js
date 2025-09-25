@@ -146,10 +146,12 @@ const styles = {
     backgroundColor: "#023337",
     display: "flex",
     flexDirection: "column",
-    width: "80vw",
-    height: "100%",
+    width: "100%",
+    height: "100vh", // ✅ fixed height (no extra scroll)
     position: "relative",
     padding: "10px 30px",
+    boxSizing: "border-box",
+    overflow: "hidden", // ✅ prevent scroll
   },
   formWrapper: {
     display: "flex",

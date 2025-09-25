@@ -136,6 +136,26 @@ const Started = () => {
         primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris
         non nisi nisi.
       </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "end",
+          margin: "10px",
+        }}
+      >
+        <button
+          style={{
+            background: "#6467F2",
+            width: "213px",
+            height: "44px",
+            borderRadius: "3px",
+            border: "none",
+            color: "#fff",
+          }}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

@@ -142,7 +142,7 @@ const styles = {
     backgroundColor: "#023337",
     display: "flex",
     flexDirection: "column",
-    width: "80vw",
+    width: "100%",
     height: "100%",
     position: "relative",
     padding: "10px 30px",

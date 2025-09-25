@@ -6,15 +6,17 @@ const AuthVendorLayout = () => {
   return (
     <div style={{ margin: 0, padding: 0 }}>
       <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          margin: 0,
-          padding: 0,
-        }}
+        style={
+          {
+            // position: "fixed",
+            // top: 0,
+            // left: 0,
+            // right: 0,
+            // zIndex: 1000,
+            // margin: 0,
+            // padding: 0,
+          }
+        }
       >
         <AuthVendorHeader />
       </div>
@@ -22,8 +24,6 @@ const AuthVendorLayout = () => {
         style={{
           display: "flex",
           minHeight: "100%",
-          marginTop: "30px",
-          padding: "10px 0px 0px 0px",
         }}
       >
         <div
@@ -38,10 +38,9 @@ const AuthVendorLayout = () => {
 
         <main
           style={{
-            width: "80%",
+            width: "100%",
             boxSizing: "border-box",
             margin: 0,
-            padding: "10px 15px 0px 0px",
             overflowX: "hidden",
           }}
         >

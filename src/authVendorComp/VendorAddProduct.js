@@ -132,13 +132,21 @@ const VendorAddProduct = () => {
         <p style={{ color: "#000", fontFamily: "Lato", fontSize: "1.2rem" }}>
           General Information
         </p>
-        <div style={{ display: "flex", width: "100%", gap: "1.2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            gap: "1.2rem",
+            height: "400px",
+          }}
+        >
           <div
             style={{
               background: "#fff",
               width: "60%",
               padding: 5,
               borderRadius: 5,
+              border: "1px solid #aca6a6ff",
             }}
           >
             <div style={{ marginBottom: 10 }}>
@@ -160,6 +168,7 @@ const VendorAddProduct = () => {
                 }}
               />
             </div>
+
             <div>
               <label>Product Description”</label>
               <br />
@@ -167,7 +176,7 @@ const VendorAddProduct = () => {
                 value={productDescription}
                 onChange={(e) => setProductDescription(e.target.value)}
                 placeholder="Enter product description (max 500 words)"
-                rows={6}
+                rows={10}
                 style={{
                   width: "100%",
                   padding: "10px",
@@ -179,6 +188,7 @@ const VendorAddProduct = () => {
                 }}
               />
             </div>
+
             <div
               style={{
                 marginBottom: 20,
@@ -211,14 +221,38 @@ const VendorAddProduct = () => {
                     checked={gender === option}
                     onChange={() => setGender(option)}
                     required
-                    style={{ marginRight: 8 }} // 👈 yaha gap set kiya
+                    style={{ marginRight: 8 }}
                   />
                   {option}
                 </label>
               ))}
             </div>
           </div>
-          <div style={{ width: "40%" }}>gfsg</div>
+          <div
+            style={{
+              width: "40%",
+              height: "400px",
+              background: "#fff",
+              borderRadius: "5px",
+              border: "1px solid #aca6a6ff",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: "30px",
+            }}
+          >
+            <div
+              style={{
+                width: "90%",
+                height: "300px",
+                border: "1px solid #000",
+                background: "#fff",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p>Upload Thumbnails</p>
+          </div>
         </div>
 
         <div style={{ marginBottom: 20 }}>

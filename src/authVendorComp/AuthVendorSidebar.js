@@ -17,7 +17,7 @@ const AuthVendorSidebar = () => {
         <h2
           style={{
             fontFamily: "Lato",
-            fontSize: "1.rem",
+            fontSize: "1.3rem",
 
             fontWeight: 400,
           }}
@@ -28,12 +28,12 @@ const AuthVendorSidebar = () => {
           <img
             alt="close button"
             src="../assets/close.png"
-            style={{ width: 30, color: "black" }}
+            style={{ width: "1.5rem", color: "black" }}
           />
         </div>
       </div>
       <div className="mainMenuContainer">
-        <p style={{ fontSize: "1rem", fontFamily: "Lato", color: "#6A717F" }}>
+        <p style={{ fontSize: "0.8rem", fontFamily: "Lato", color: "#6A717F" }}>
           Main menu
         </p>
         <div
@@ -41,7 +41,7 @@ const AuthVendorSidebar = () => {
             paddingLeft: "10px",
             display: "flex",
             flexDirection: "column",
-            gap: ".8rem",
+            gap: ".5rem",
           }}
         >
           <Link
@@ -53,14 +53,15 @@ const AuthVendorSidebar = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "start",
-                gap: 10,
+                gap: ".7rem",
+                height: "1.5rem",
               }}
             >
               <img
                 src="../assets/dashboard.png"
                 alt="dashboard"
                 style={{
-                  width: "2rem",
+                  width: "1rem",
                   backgroundColor: "#6A717F",
                   borderRadius: "30%",
                 }}
@@ -68,9 +69,11 @@ const AuthVendorSidebar = () => {
               <p
                 style={{
                   fontFamily: "Lato",
-                  fontSize: "1.2rem",
+                  fontSize: "1rem",
                   color: "#6A717F",
                   height: "1rem",
+                  position: "relative",
+                  top: ".2rem",
                 }}
               >
                 Dashboard
@@ -82,20 +85,23 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/Cart.png"
               alt="cartMenu"
-              style={{ width: "2rem" }}
+              style={{ width: "1.2rem" }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Order Management
@@ -106,23 +112,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/customers.png"
               alt="customers"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Customers
@@ -133,23 +142,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/coupon.png"
               alt="coupon"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Coupon Code
@@ -160,23 +172,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/vendorcategory.png"
               alt="vendorcategory"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Categories
@@ -187,23 +202,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/transaction.png"
               alt="Transaction"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Transaction
@@ -214,24 +232,27 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/brand.png"
               alt="vendorBrand"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
-                height: "2rem",
+                height: "1.5rem",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Brand
@@ -242,7 +263,7 @@ const AuthVendorSidebar = () => {
       <div className="productContainer" style={{ marginTop: "1rem" }}>
         <p
           style={{
-            fontSize: "1rem",
+            fontSize: "0.8rem",
             fontFamily: "Lato",
             color: "#6A717F",
           }}
@@ -266,23 +287,26 @@ const AuthVendorSidebar = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "start",
-                gap: 10,
+                gap: ".7rem",
+                height: "1.5rem",
               }}
             >
               <img
                 src="../assets/addIcon.png"
                 alt="add Item"
                 style={{
-                  width: "2rem",
+                  width: "1.2rem",
                   borderRadius: "30%",
                 }}
               />
               <p
                 style={{
                   fontFamily: "Lato",
-                  fontSize: "1.2rem",
+                  fontSize: "1rem",
                   color: "#6A717F",
                   height: "1rem",
+                  position: "relative",
+                  top: ".2rem",
                 }}
               >
                 Add Products
@@ -294,20 +318,23 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/media.png"
               alt="media"
-              style={{ width: "2rem" }}
+              style={{ width: "1.2rem", borderRadius: "30%" }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Product Media
@@ -318,23 +345,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/productList.png"
               alt="productList"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Product List
@@ -345,23 +375,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/reviews.png"
               alt="coupon"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Product Reviews
@@ -372,23 +405,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/vendorcategory.png"
               alt="vendorcategory"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Categories
@@ -399,23 +435,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/transaction.png"
               alt="Transaction"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Transaction
@@ -426,24 +465,26 @@ const AuthVendorSidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              gap: 10,
+              gap: ".7rem",
+              height: "1.5rem",
             }}
           >
             <img
               src="../assets/brand.png"
               alt="vendorBrand"
               style={{
-                width: "2rem",
+                width: "1.2rem",
                 borderRadius: "30%",
-                height: "2rem",
               }}
             />
             <p
               style={{
                 fontFamily: "Lato",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 color: "#6A717F",
                 height: "1rem",
+                position: "relative",
+                top: ".2rem",
               }}
             >
               Brand
