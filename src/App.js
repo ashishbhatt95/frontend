@@ -23,15 +23,17 @@ function App() {
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Dashboard />} />
         </Route>
+
         <Route path="/vendor" element={<VendorLayout />}>
           <Route index element={<Started />} />
-          <Route path="/vendor/registration" element={<VendorRegistration />} />
-          <Route path="/vendor/details" element={<VendorDetailsForm />} />
-          <Route path="/vendor/kyc" element={<VendorKyc />} />
-          <Route path="/vendor/payment" element={<VendorPayment />} />
-          <Route path="/vendor/terms" element={<VendorTerm />} />
-          <Route path="/vendor/shop" element={<VendorShop />} />
+          <Route path="registration" element={<VendorRegistration />} />
+          <Route path="details" element={<VendorDetailsForm />} />
+          <Route path="kyc" element={<VendorKyc />} />
+          <Route path="payment" element={<VendorPayment />} />
+          <Route path="terms" element={<VendorTerm />} />
+          <Route path="shop" element={<VendorShop />} />
         </Route>
+
         <Route path="/authVendor" element={<AuthVendorLayout />}>
           <Route index element={<AuthVendorDashboard />} />
           <Route path="vendorAddProduct" element={<VendorAddProduct />} />
