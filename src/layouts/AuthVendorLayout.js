@@ -42,6 +42,10 @@ const AuthVendorLayout = () => {
             boxSizing: "border-box",
             margin: 0,
             overflowX: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Outlet />

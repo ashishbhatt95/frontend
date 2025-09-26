@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useState, useRef } from "react";
+import { BiCoinStack } from "react-icons/bi";
 const VendorAddProduct = () => {
-  const [thumbnails, setThumbnails] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [productTitle, setProductTitle] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [gender, setGender] = useState("");
@@ -25,17 +25,28 @@ const VendorAddProduct = () => {
   const [delivery, setDelivery] = useState("");
   const [deliveryType, setDeliveryType] = useState("Free");
 
-  const handleThumbnailChange = (e) => {
-    const filesArray = Array.from(e.target.files);
-    setThumbnails(filesArray);
+  const fileInputRef = useRef(null);
+  const handleImageClick = () => {
+    // Hidden file input trigger
+    fileInputRef.current.click();
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file)); // Preview
+    }
+  };
+  const fileInputRefs = useRef(
+    Array.from({ length: 7 }, () => React.createRef())
+  );
 
   const handleGalleryChange = (e, index) => {
-    const filesArray = Array.from(e.target.files);
+    const file = e.target.files[0];
+    if (!file) return;
     setGalleryImages((prev) => {
-      const newGallery = [...prev];
-      newGallery[index] = filesArray[0];
-      return newGallery;
+      const updated = [...prev];
+      updated[index] = file;
+      return updated;
     });
   };
 
@@ -57,7 +68,6 @@ const VendorAddProduct = () => {
       productTitle,
       productDescription,
       gender,
-      thumbnails,
       galleryImages,
       videoUrl,
       sku,
@@ -129,7 +139,14 @@ const VendorAddProduct = () => {
       <div className="generalInfoContainer"></div>
 
       <form onSubmit={handleSubmit}>
-        <p style={{ color: "#000", fontFamily: "Lato", fontSize: "1.2rem" }}>
+        <p
+          style={{
+            color: "#000",
+            fontFamily: "Lato",
+            fontSize: "1.2rem",
+            fontWeight: 400,
+          }}
+        >
           General Information
         </p>
         <div
@@ -150,7 +167,15 @@ const VendorAddProduct = () => {
             }}
           >
             <div style={{ marginBottom: 10 }}>
-              <label>Product Title*</label>
+              <label
+                style={{
+                  fontFamily: "Lato",
+                  fontWeight: 400,
+                  fontSize: "1rem",
+                }}
+              >
+                Product Title*
+              </label>
               <br />
               <input
                 type="text"
@@ -170,7 +195,15 @@ const VendorAddProduct = () => {
             </div>
 
             <div>
-              <label>Product Description”</label>
+              <label
+                style={{
+                  fontFamily: "Lato",
+                  fontWeight: 400,
+                  fontSize: "1rem",
+                }}
+              >
+                Product Description”
+              </label>
               <br />
               <textarea
                 value={productDescription}
@@ -249,360 +282,1070 @@ const VendorAddProduct = () => {
                 border: "1px solid #000",
                 background: "#fff",
                 borderRadius: "5px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-            ></div>
-            <p>Upload Thumbnails</p>
-          </div>
-        </div>
-
-        <div style={{ marginBottom: 20 }}>
-          <label>
-            Upload Thumbnails*
-            <br />
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleThumbnailChange}
-              style={{ display: "block" }}
-            />
-          </label>
-          <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
-            {thumbnails.map((file, i) => (
+            >
               <img
-                key={i}
-                src={URL.createObjectURL(file)}
-                alt={`thumb-${i}`}
-                style={{ height: 100, objectFit: "cover" }}
+                src="../assets/uploadThumbImg.png"
+                alt="Click to upload"
+                onClick={handleImageClick}
+                style={{
+                  width: "3.2rem",
+                  height: "3.2rem",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                  borderRadius: "8px",
+                }}
               />
-            ))}
-          </div>
-        </div>
 
-        <h3>General Information</h3>
-
-        <div style={{ marginBottom: 10 }}>
-          <label>
-            Product Description <small>(90 words recommended)</small>
-            <br />
-            <textarea
-              maxLength={90}
-              value={productDescription}
-              onChange={(e) => setProductDescription(e.target.value)}
-              required
-              placeholder="Enter Product Description"
-              style={{ width: "100%", height: 80 }}
-            />
-          </label>
-        </div>
-
-        {/* Gender */}
-
-        {/* Product Gallery */}
-        <h3>Product Gallery (JPEG, PNG & Video)</h3>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          {[0, 1, 2, 3, 4, 5].map((index) => (
-            <div key={index}>
               <input
                 type="file"
-                accept="image/png, image/jpeg, video/*"
-                onChange={(e) => handleGalleryChange(e, index)}
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                style={{ display: "none" }}
               />
-              {galleryImages[index] && (
-                <div style={{ marginTop: 4 }}>
-                  {galleryImages[index].type.startsWith("video") ? (
-                    <video
-                      src={URL.createObjectURL(galleryImages[index])}
-                      controls
-                      width="100"
-                    />
-                  ) : (
-                    <img
-                      src={URL.createObjectURL(galleryImages[index])}
-                      alt={`gallery-${index}`}
-                      style={{ height: 80, objectFit: "cover" }}
-                    />
-                  )}
-                </div>
-              )}
             </div>
-          ))}
-        </div>
-
-        {/* SKU/HSN */}
-        <div style={{ marginTop: 20 }}>
-          <label>
-            SKU/HSN
-            <br />
-            <input
-              type="text"
-              value={sku}
-              onChange={(e) => setSku(e.target.value)}
-              style={{ width: "100%" }}
-            />
-          </label>
-        </div>
-
-        {/* Price and Stock */}
-        <h3>Product Gallery, Price & Stock</h3>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Regular Price*
-              <br />
-              <input
-                type="number"
-                value={regularPrice}
-                onChange={(e) => setRegularPrice(e.target.value)}
-                required
-                placeholder="RS.0.00"
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
-          </div>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Sale Price*
-              <br />
-              <input
-                type="number"
-                value={salePrice}
-                onChange={(e) => setSalePrice(e.target.value)}
-                required
-                placeholder="RS.0.00"
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
-          </div>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Coins*
-              <br />
-              <input
-                type="number"
-                value={coins}
-                onChange={(e) => setCoins(e.target.value)}
-                required
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
-          </div>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Stock*
-              <br />
-              <input
-                type="number"
-                value={stock}
-                onChange={(e) => setStock(e.target.value)}
-                required
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
+            <p>Upload Thumbnail</p>
           </div>
         </div>
 
-        {/* Dimensions & Weight */}
-        <h3>Product Dimensions & Actual Weight</h3>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Length
-              <br />
-              <input
-                type="number"
-                value={length}
-                onChange={(e) => setLength(e.target.value)}
-                placeholder="Length"
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
-          </div>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Height
-              <br />
-              <input
-                type="number"
-                value={height}
-                onChange={(e) => setHeight(e.target.value)}
-                placeholder="Height"
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
-          </div>
-          <div style={{ flex: 1, minWidth: 150 }}>
-            <label>
-              Actual Weight
-              <br />
-              <input
-                type="number"
-                value={actualWeight}
-                onChange={(e) => setActualWeight(e.target.value)}
-                placeholder="Actual Weight"
-                style={{ width: "100%" }}
-                min={0}
-              />
-            </label>
-          </div>
-        </div>
+        <p
+          style={{
+            color: "#000",
+            fontFamily: "Lato",
+            fontSize: "1.2rem",
+            fontWeight: 400,
+            marginTop: "0.5rem",
+          }}
+        >
+          Product Gallery, Price & Stock
+        </p>
 
-        {/* Highlights */}
-        <h3>Product Highlights</h3>
-        {highlights.map((highlight, idx) => (
-          <div key={idx} style={{ marginBottom: 10 }}>
-            <label>
-              {idx + 1}
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            gap: "1.2rem",
+            height: "300px",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              width: "60%",
+              padding: 5,
+              borderRadius: 5,
+              border: "1px solid #aca6a6ff",
+            }}
+          >
+            <div style={{ marginBottom: 10 }}>
+              <label
+                style={{
+                  fontFamily: "Lato",
+                  fontWeight: 400,
+                  fontSize: "1rem",
+                }}
+              >
+                Product Gallery* ( JPEG, PNG & Video )
+              </label>
+              <br />
+              <div style={{}}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {Array.from({ length: 7 }).map((_, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        width: "13%",
+                        height: "5.5rem",
+                        border: "1px solid #000",
+                        background: "#fff",
+                        borderRadius: "5px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
+                      onClick={() =>
+                        fileInputRefs.current[index].current.click()
+                      }
+                    >
+                      {galleryImages[index] ? (
+                        galleryImages[index].type.startsWith("video") ? (
+                          <video
+                            src={URL.createObjectURL(galleryImages[index])}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                            muted
+                          />
+                        ) : (
+                          <img
+                            src={URL.createObjectURL(galleryImages[index])}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                            alt="gallery-preview"
+                          />
+                        )
+                      ) : (
+                        <img
+                          src="../assets/uploadThumbImg.png"
+                          alt="Click to upload"
+                          style={{ width: "2rem", height: "2rem" }}
+                        />
+                      )}
+
+                      <input
+                        type="file"
+                        accept="image/png, image/jpeg, video/mp4"
+                        ref={fileInputRefs.current[index]}
+                        onChange={(e) => handleGalleryChange(e, index)}
+                        style={{ display: "none" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                style={{
+                  fontFamily: "Lato",
+                  fontWeight: 400,
+                  fontSize: "1rem",
+                }}
+              >
+                SKU/HSN
+              </label>
+              <br />
               <input
                 type="text"
-                value={highlight}
-                onChange={(e) => handleHighlightChange(idx, e.target.value)}
-                maxLength={100}
-                placeholder="Enter Text up to 100 words"
-                style={{ width: "90%", marginLeft: 8 }}
+                value={productTitle}
+                onChange={(e) => setProductTitle(e.target.value)}
+                required
+                placeholder=""
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  border: "1px solid #000000",
+                  borderRadius: "5px",
+                  padding: "5px",
+                }}
               />
-            </label>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addHighlight}
-          style={{ marginBottom: 20 }}
-        >
-          + Add More Highlights
-        </button>
-
-        {/* Right Sidebar Inputs */}
-        <div
-          style={{ border: "1px solid #ccc", padding: 15, marginBottom: 20 }}
-        >
-          {/* YouTube Video */}
-          <label style={{ display: "block", marginBottom: 10 }}>
-            Product YouTube Video
-            <input
-              type="url"
-              placeholder="https://youtube.com/..."
-              value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
-              style={{ width: "100%", marginTop: 6 }}
-            />
-          </label>
-
-          {/* Category */}
-          <label style={{ display: "block", marginBottom: 10 }}>
-            Category
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              style={{ width: "100%", marginTop: 6 }}
-            >
-              <option>All</option>
-              <option>Category 1</option>
-              <option>Category 2</option>
-              {/* Add real categories here */}
-            </select>
-          </label>
-
-          {/* Sub-Category */}
-          <label style={{ display: "block", marginBottom: 10 }}>
-            Select Sub - Category
-            <select
-              value={subCategory}
-              onChange={(e) => setSubCategory(e.target.value)}
-              style={{ width: "100%", marginTop: 6 }}
-            >
-              <option>All</option>
-              <option>Sub 1</option>
-              <option>Sub 2</option>
-              {/* Add real subcategories here */}
-            </select>
-          </label>
-
-          {/* Tag */}
-          <label style={{ display: "block", marginBottom: 10 }}>
-            Tag
-            <input
-              type="text"
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
-              style={{ width: "100%", marginTop: 6 }}
-            />
-          </label>
-
-          {/* Manufacturing Country */}
-          <label style={{ display: "block", marginBottom: 10 }}>
-            Product Manufacturing Country
-            <input
-              type="text"
-              placeholder="Enter Country Name"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              style={{ width: "100%", marginTop: 6 }}
-            />
-          </label>
-
-          {/* Brand */}
-          <label style={{ display: "block", marginBottom: 10 }}>
-            Brand
-            <input
-              type="text"
-              placeholder="Enter Brand Name"
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-              style={{ width: "100%", marginTop: 6 }}
-            />
-          </label>
-
-          {/* GST & Delivery */}
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <label style={{ flex: 1 }}>
-              GST %
-              <input
-                type="number"
-                value={gst}
-                onChange={(e) => setGst(e.target.value)}
-                placeholder="%"
-                min={0}
-                max={100}
-                style={{ width: "100%", marginTop: 6 }}
-              />
-            </label>
-
-            <label style={{ flex: 2 }}>
-              Delivery
-              <select
-                value={deliveryType}
-                onChange={(e) => setDeliveryType(e.target.value)}
-                style={{ width: "100%", marginTop: 6 }}
+            </div>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  width: "100%",
+                  marginTop: "1rem",
+                  flexWrap: "wrap",
+                  fontFamily: "Lato",
+                }}
               >
-                <option>Free</option>
-                <option>Paid</option>
-              </select>
-            </label>
+                {/* Regular Price */}
+                <div style={{ flex: 1, width: "25%" }}>
+                  <label style={{ fontWeight: 500 }}>Regular Price*</label>
+                  <div
+                    style={{
+                      border: "1px solid #000",
+                      borderRadius: "0.3rem",
+                      display: "flex",
+                      alignItems: "center",
+                      paddingRight: "8px",
+                      fontFamily: "Lato",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={regularPrice}
+                      onChange={(e) => setRegularPrice(e.target.value)}
+                      placeholder="Enter Price"
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        border: "none",
+                        outline: "none",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                    <p
+                      style={{
+                        margin: 0,
+                        fontWeight: 400,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        fontSize: "1.3rem",
+                        lineHeight: "1.5rem",
+                      }}
+                    >
+                      <span>|</span>
+                      <span>₹</span>
+                    </p>
+                  </div>
+                </div>
 
-            {deliveryType === "Paid" && (
+                {/* Sales Price */}
+                <div style={{ flex: 1, width: "25%" }}>
+                  <label style={{ fontWeight: 500 }}>Sales Price</label>
+                  <div
+                    style={{
+                      border: "1px solid #000",
+                      borderRadius: "5px",
+                      display: "flex",
+                      alignItems: "center",
+                      paddingRight: "8px",
+                      fontFamily: "Lato",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={salePrice}
+                      onChange={(e) => setSalePrice(e.target.value)}
+                      placeholder="Enter Price"
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        border: "none",
+                        outline: "none",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                    <p
+                      style={{
+                        margin: 0,
+                        fontWeight: 400,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        fontSize: "1.3rem",
+                        lineHeight: "1.5rem",
+                      }}
+                    >
+                      <span>|</span>
+                      <span>₹</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Coins */}
+                <div style={{ flex: 1, width: "25%" }}>
+                  <label style={{ fontWeight: 500 }}>Coins</label>
+                  <div
+                    style={{
+                      border: "1px solid #000",
+                      borderRadius: "5px",
+                      display: "flex",
+                      alignItems: "center",
+                      paddingRight: "8px",
+                      fontFamily: "Lato",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={coins}
+                      onChange={(e) => setCoins(e.target.value)}
+                      placeholder="Enter Coins"
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        border: "none",
+                        outline: "none",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                    <p
+                      style={{
+                        margin: 0,
+                        fontWeight: 400,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        fontSize: "1.3rem",
+                        lineHeight: "1.5rem",
+                      }}
+                    >
+                      <span>|</span>
+                      <BiCoinStack />
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stock */}
+                <div style={{ flex: 1, width: "25%" }}>
+                  <label style={{ fontWeight: 500 }}>Stock</label>
+                  <input
+                    type="text"
+                    value={stock}
+                    onChange={(e) => setStock(e.target.value)}
+                    placeholder="Enter Stock"
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      border: "1px solid #000",
+                      borderRadius: "5px",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              width: "40%",
+              height: "550px",
+              background: "#fff",
+              borderRadius: "5px",
+              border: "1px solid #aca6a6ff",
+              display: "flex",
+              flexDirection: "column",
+              fontFamily: "Lato",
+              padding: "10px",
+            }}
+          >
+            <div>
+              <label>Product YouTube Video</label>
               <input
-                type="number"
-                value={delivery}
-                onChange={(e) => setDelivery(e.target.value)}
-                placeholder="Delivery Charge"
-                min={0}
-                style={{ flex: 1, marginTop: 24 }}
+                type="text"
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  border: "1px solid #000",
+                  borderRadius: "15px",
+                  boxSizing: "border-box",
+                }}
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
+                placeholder="youtube.com/c/yuytuubub#..."
               />
-            )}
+            </div>
+            <div style={{ marginTop: "10px" }}>
+              <label
+                style={{
+                  fontWeight: 600,
+                  display: "block",
+                  marginBottom: "4px",
+                  fontSize: "1rem",
+                }}
+              >
+                Category*
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px 10px 10px 10px",
+                  border: "1px solid #000",
+                  borderRadius: "15px",
+                  outline: "none",
+                  fontSize: "1rem",
+                  backgroundColor: "#023337",
+                  color: "#fff",
+                  boxSizing: "border-box",
+                }}
+              >
+                <option value="all">All</option>
+                <option value="clothing">Clothing</option>
+                <option value="shoes">Shoes</option>
+                <option value="accessories">Accessories</option>
+                <option value="electronics">Electronics</option>
+              </select>
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              <label
+                style={{
+                  fontWeight: 500,
+                  display: "block",
+                  marginBottom: "4px",
+                  fontSize: "1rem",
+                }}
+              >
+                Sub-Category*
+              </label>
+              <select
+                value={subCategory}
+                onChange={(e) => setSubCategory(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  border: "1px solid #000",
+                  borderRadius: "15px",
+                  outline: "none",
+                  fontSize: "1rem",
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  boxSizing: "border-box",
+                }}
+              >
+                <option value="all">All</option>
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+                <option value="kids">Kids</option>
+                <option value="new-arrivals">New Arrivals</option>
+              </select>
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              <label
+                style={{
+                  fontWeight: 500,
+                  display: "block",
+                  marginBottom: "4px",
+                  fontSize: "1rem",
+                }}
+              >
+                Tag
+              </label>
+              <div>
+                <textarea
+                  style={{
+                    width: "100%",
+                    borderRadius: "10px",
+                    border: "1px solid #000",
+                    minHeight: "3rem",
+                    padding: "8px",
+                    resize: "none",
+                    fontSize: "1rem",
+                    outline: "none",
+                  }}
+                  placeholder="Enter tags here..."
+                />
+              </div>
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              <label
+                style={{
+                  fontWeight: 500,
+                  display: "block",
+                  marginBottom: "4px",
+                  fontSize: "1rem",
+                }}
+              >
+                Product Manufacturing Country
+              </label>
+              <div>
+                <input
+                  type="text"
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    border: "1px solid #000",
+                    borderRadius: "15px",
+                    boxSizing: "border-box",
+                  }}
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  placeholder="Enter Country Name"
+                />
+              </div>
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              <label
+                style={{
+                  fontWeight: 500,
+                  display: "block",
+                  marginBottom: "4px",
+                  fontSize: "1rem",
+                }}
+              >
+                Brand
+              </label>
+              <div>
+                <input
+                  type="text"
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    border: "1px solid #000",
+                    borderRadius: "15px",
+                    boxSizing: "border-box",
+                  }}
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  placeholder="Enter Brand Name"
+                />
+              </div>
+            </div>
           </div>
         </div>
+        <label
+          style={{
+            fontFamily: "Lato",
+            fontWeight: 400,
+            fontSize: "1rem",
+          }}
+        >
+          Product Dimensions & Actual Weight
+        </label>
+        <div
+          style={{
+            width: "59%",
+            gap: "1.2rem",
+            marginTop: "0.5rem",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              width: "100%",
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #aca6a6ff",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              {/* Length */}
+              <div style={{ width: "33%" }}>
+                <label
+                  style={{
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Length
+                </label>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    border: "1px solid #000",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    height: "40px",
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Enter length"
+                    style={{
+                      flex: 1,
+                      width: "65%",
+                      border: "none",
+                      outline: "none",
+                      fontSize: "1rem",
+                    }}
+                  />
+                  {/* Divider */}
+                  <p
+                    style={{
+                      margin: 0,
+                      fontWeight: 400,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      fontSize: "1.3rem",
+                      lineHeight: "1.5rem",
+                    }}
+                  >
+                    <span>|</span>
+                  </p>
+                  <select
+                    style={{
+                      border: "none",
+                      outline: "none",
+                      background: "transparent",
+                      fontSize: "1rem",
+                      width: "35%",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <option value="cm">cm</option>
+                    <option value="m">meter</option>
+                    <option value="inch">inch</option>
+                    <option value="ft">feet</option>
+                  </select>
+                </div>
+              </div>
 
-        {/* Buttons */}
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button type="button">Save as Draft</button>
-          <button type="submit">Add Product</button>
+              {/* Width */}
+              <div style={{ width: "33%" }}>
+                <label
+                  style={{
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Width
+                </label>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    border: "1px solid #000",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    height: "40px",
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Enter width"
+                    style={{
+                      flex: 1,
+                      border: "none",
+                      outline: "none",
+                      fontSize: "1rem",
+                      width: "65%",
+                    }}
+                  />
+                  <p
+                    style={{
+                      margin: 0,
+                      fontWeight: 400,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      fontSize: "1.3rem",
+                      lineHeight: "1.5rem",
+                    }}
+                  >
+                    <span>|</span>
+                  </p>
+                  <select
+                    style={{
+                      border: "none",
+                      outline: "none",
+                      background: "transparent",
+                      fontSize: "1rem",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      width: "35%",
+                    }}
+                  >
+                    <option value="cm">cm</option>
+                    <option value="m">meter</option>
+                    <option value="inch">inch</option>
+                    <option value="ft">feet</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Height */}
+              <div style={{ width: "33%" }}>
+                <label
+                  style={{
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Height
+                </label>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    border: "1px solid #000",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    height: "40px",
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Enter height"
+                    style={{
+                      flex: 1,
+                      border: "none",
+                      outline: "none",
+                      fontSize: "1rem",
+                      width: "65%",
+                    }}
+                  />
+                  <p
+                    style={{
+                      margin: 0,
+                      fontWeight: 400,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      fontSize: "1.3rem",
+                      lineHeight: "1.5rem",
+                    }}
+                  >
+                    <span>|</span>
+                  </p>
+                  <select
+                    style={{
+                      border: "none",
+                      outline: "none",
+                      background: "transparent",
+                      fontSize: "1rem",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      width: "35%",
+                    }}
+                  >
+                    <option value="cm">cm</option>
+                    <option value="m">meter</option>
+                    <option value="inch">inch</option>
+                    <option value="ft">feet</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <label
+              style={{
+                fontWeight: 500,
+                display: "block",
+                marginBottom: "6px",
+              }}
+            >
+              Actual Weight
+            </label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                border: "1px solid #000",
+                borderRadius: "8px",
+                height: "40px",
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Enter weight"
+                style={{
+                  flex: 1,
+                  border: "none",
+                  outline: "none",
+                  fontSize: "1rem",
+                  width: "90%",
+                }}
+              />
+              <p
+                style={{
+                  margin: 0,
+                  fontWeight: 400,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  fontSize: "1.3rem",
+                  lineHeight: "1.5rem",
+                }}
+              >
+                <span>|</span>
+              </p>
+              <select
+                style={{
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  width: "10%",
+                }}
+              >
+                <option value="kg">kg</option>
+                <option value="g">g</option>
+                <option value="lb">lb</option>
+                <option value="oz">oz</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <label
+          style={{
+            fontFamily: "Lato",
+            fontWeight: 400,
+            fontSize: "1rem",
+          }}
+        >
+          Product Highlights
+        </label>
+
+        <div
+          style={{
+            width: "59%",
+            gap: "1.2rem",
+            marginTop: "10px",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              width: "100%",
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #aca6a6ff",
+            }}
+          >
+            <div
+              style={{
+                border: "1px solid #000",
+                borderRadius: "0.3rem",
+                display: "flex",
+                alignItems: "center",
+                paddingRight: "8px",
+                fontFamily: "Lato",
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontWeight: 400,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  fontSize: "1.3rem",
+
+                  lineHeight: "1.5rem",
+                  paddingLeft: "1rem",
+                }}
+              >
+                <span>1</span>
+                <span>|</span>
+              </p>
+              <input
+                type="text"
+                value={highlights}
+                onChange={(e) => setHighlights(e.target.value)}
+                placeholder="Enter Text upto 100 words"
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  border: "none",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
+            <p
+              style={{
+                textAlign: "end",
+                cursor: "pointer",
+                fontSize: "1rem",
+                margin: "10px 0px 0px 0px",
+              }}
+            >
+              + Add More Highlights
+            </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end", // right side
+              marginTop: "10px",
+            }}
+          ></div>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            position: "relative",
+            top: "-4rem",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              width: "39%", // container width
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #aca6a6ff",
+            }}
+          >
+            <label
+              style={{
+                fontWeight: 500,
+                display: "block",
+                marginBottom: "4px",
+                fontSize: "1rem",
+              }}
+            >
+              Tax & Delivery
+            </label>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <label
+                style={{
+                  fontWeight: 500,
+                  display: "block",
+                  marginBottom: "4px",
+                  fontSize: "1rem",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                GST
+              </label>
+
+              <div
+                style={{
+                  flex: 1,
+                  border: "1px solid #000",
+                  borderRadius: "0.3rem",
+                  display: "flex",
+                  alignItems: "center",
+                  paddingRight: "8px",
+                  fontFamily: "Lato",
+                  justifyContent: "center",
+                }}
+              >
+                <input
+                  type="text"
+                  value={highlights}
+                  onChange={(e) => setHighlights(e.target.value)}
+                  placeholder="Enter Text upto 100 words"
+                  style={{
+                    flex: 1,
+                    padding: "8px",
+                    border: "none",
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <p
+                  style={{
+                    margin: 0,
+                    fontWeight: 400,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    fontSize: "1.3rem",
+                    lineHeight: "1.5rem",
+                    paddingLeft: "1rem",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span>|</span>
+                  <span>%</span>
+                </p>
+              </div>
+            </div>
+            <label
+              style={{
+                fontWeight: 500,
+                display: "block",
+                marginBottom: "4px",
+                fontSize: "1rem",
+              }}
+            >
+              Delivery
+            </label>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <input
+                  type="radio"
+                  value="free"
+                  checked={deliveryType === "free"}
+                  onChange={(e) => setDeliveryType(e.target.value)}
+                />
+                <label
+                  style={{
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: "4px",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Free Delivery
+                </label>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  marginLeft: "20px",
+                }}
+              >
+                <label
+                  style={{
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: "4px",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Paid
+                </label>
+                <div
+                  style={{
+                    border: "1px solid #000",
+                    borderRadius: "0.3rem",
+                    display: "flex",
+                    alignItems: "center",
+                    paddingRight: "8px",
+                    fontFamily: "Lato",
+                    width: "100%",
+                    justifyContent: "end",
+                  }}
+                >
+                  <input
+                    type="text"
+                    value={regularPrice}
+                    onChange={(e) => setRegularPrice(e.target.value)}
+                    placeholder="Enter Price"
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                  <p
+                    style={{
+                      margin: 0,
+                      fontWeight: 400,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      fontSize: "1.3rem",
+                      lineHeight: "1.5rem",
+                    }}
+                  >
+                    <span>|</span>
+                    <span>₹</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -612,7 +1355,7 @@ const VendorAddProduct = () => {
 const styles = {
   mainContainer: {
     width: "100%",
-    height: "100%",
+    height: "100vh",
     backgroundColor: "#E8EFFF",
     padding: "20px 10px 10px 30px",
   },
